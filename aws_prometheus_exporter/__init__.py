@@ -61,7 +61,6 @@ class AwsMetricsCollector:
         """
         super().__init__()
         self._session = session
-        self._region = 'us-east-1'
         self._metrics = metrics
         self._data_lock = Lock()
         self._data = {}  # dict of metric_name to list of (label_values, value)
@@ -105,13 +104,13 @@ class AwsMetricsCollector:
         return result
 
     def _call_paginator(self, metric):
-        service = self._session.client(metric.service, region_name=self._region)
+        service = self._session.client(metric.service)
         paginator = service.get_paginator(metric.method)
         paginate_response_iterator = paginator.paginate(**metric.method_args)
         return list(paginate_response_iterator.search(metric.search))
 
     def _call_service_method(self, metric):
-        service = self._session.client(metric.service, region_name=self._region)
+        service = self._session.client(metric.service)
         service_method = getattr(service, metric.method)
         next_token = ''
         responses = []

@@ -38,6 +38,15 @@ def parse_args():
         default=300,
         help='seconds between metric refreshes'
     )
+    parser.add_argument(
+        '-r', '--region',
+        metavar='REGION',
+        dest="region",
+        required=False,
+        type=str,
+        default=os.getenv("AWS_REGION", "us-east-1"),
+        help='AWS region to run the query'
+    )
     return parser.parse_args()
 
 
@@ -46,7 +55,7 @@ def main(args):
     with open(args.metrics_file_path) as metrics_file:
         metrics_yaml = metrics_file.read()
     metrics = parse_aws_metrics(metrics_yaml)
-    collector = AwsMetricsCollector(metrics, boto3.Session())
+    collector = AwsMetricsCollector(metrics, boto3.Session(region_name=args.region))
     REGISTRY.register(collector)
     start_http_server(port)
     print("Serving at port: %s" % port)
