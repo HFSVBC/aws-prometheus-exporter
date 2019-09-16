@@ -1,6 +1,8 @@
 FROM python:3.7-slim
 
-RUN apt-get update -y && apt-get clean
+RUN apt-get update -y && \
+    apt-get install -y curl && \
+    apt-get clean
 
 WORKDIR /opt/aws_prometheus_exporter
 
