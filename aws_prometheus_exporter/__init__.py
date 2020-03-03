@@ -127,7 +127,7 @@ def parse_aws_metrics(yaml_string):
     """
     Parses a YAML-formatted document and returns a list of AwsMetric objects.
     """
-    parsed_yaml = yaml.load(yaml_string)
+    parsed_yaml = yaml.load(yaml_string, Loader=yaml.SafeLoader)
     metrics = []
 
     def get_field(field_name, metric_name, parsed_metric):
