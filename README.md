@@ -1,5 +1,7 @@
 # AWS Prometheus Exporter
 
+Originaly by [movio/aws-prometheus-exporter](https://github.com/movio/aws-prometheus-exporter)
+
 This Python module allows you to run AWS API calls through Boto3, and expose the results of those calls as Prometheus metrics.
 Metrics must be described in YAML. For example:
 
